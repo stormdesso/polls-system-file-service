@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+    locations: "filesystem:./src/main/resources/db/migration"
+
+feign:
+  client:
+    server: http://localhost:8080
+    authClient: ${feign.client.server}/api/v1/auth
+    permissionClient: ${feign.client.server}/api/v1/permission
+
+file.settings:
+  maximum-files-per-poll: 10
+  download:
+    list:
+      max: 10
+      min: 1
+  upload:
+    list:
+      max: 10
+      min: 1
+    sizeInMb: 10
+  delete.schedule.cron: 0 1 0 * * ? #выполняется каждый день в 00:01

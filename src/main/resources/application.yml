@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: "@project.name@"
+    description: "@project.description@"
+    version: "@project.version@"
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 200MB
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/polls_system_files?currentSchema=public
+    username: admin
+    password: admin
+    hikari:
+      connectionTimeout: 60000
+      idleTimeout: 60000
+      maxLifetime: 300000
+      minimumIdle: 5
+      maximumPoolSize: 10
+  sql.init.encoding: UTF-8
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: false
+
+  rabbitmq:
+    password: secret
+    username: myuser
+    dynamic: true
+    listener.direct.auto-startup: true
+    host: localhost
+    port: 5672
+
+feign:
+  client:
+    server: http://localhost:8080
+    authClient: ${feign.client.server}/api/v1/auth
+    permissionClient: ${feign.client.server}/api/v1/permission
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+file.settings:
+  maximum-files-per-poll: 10
+  download:
+    list:
+      max: 10
+      min: 1
+  upload:
+    list:
+      max: 10
+      min: 1
+    sizeInMb: 10
+  delete.schedule.cron: 0 1 0 * * ? #выполняется каждый день в 00:01
+
+logging:
+  level:
+    ru.pstu.polls_system.file_service: error
+server:
+  tomcat.threads.max: 100000
+  port: 8082
+

@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  polls-system-file-service:
+    image: polls-system-file-service:latest
+    container_name: polls-system-file-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/polls_system_files?currentSchema=public
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_FLYWAY_LOCATIONS=classpath:db/migration
+      - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15-alpine
+    container_name: polls_system_files_container_db
+    environment:
+      POSTGRES_DB: polls_system_files
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+    driver: local
