@@ -68,4 +68,3 @@ logging:
 server:
   tomcat.threads.max: 100000
   port: 8082
-
